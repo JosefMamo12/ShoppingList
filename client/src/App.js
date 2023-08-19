@@ -8,6 +8,7 @@ import {
   Button,
   createTheme,
   Divider,
+  useMediaQuery,
 } from "@mui/material";
 import { green } from "@mui/material/colors";
 import Category from "./components/Category";
@@ -16,12 +17,9 @@ import { CacheProvider } from "@emotion/react";
 import createCache from "@emotion/cache";
 import CategoryItemList from "./components/CategoryItemList";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  useAddItemMutation,
-  useGetItemsQuery,
-} from "./state/api";
-import {  incrementTotalItems } from "./state/totalItemsSlice";
-
+import { useAddItemMutation, useGetItemsQuery } from "./state/api";
+import { incrementTotalItems } from "./state/totalItemsSlice";
+import image from "./img/15687.jpg";
 function App() {
   const dispatch = useDispatch();
   const cacheRtl = createCache({
@@ -70,13 +68,22 @@ function App() {
       setText(""); // Clear the input field after adding an item
     }
   };
-
+  const isSmallScreen = useMediaQuery(theme.breakpoints.up("sm"));
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <div className="App" style={{ direction: "rtl" }}>
+      <div
+        className="App"
+        style={{
+          direction: "rtl",
+          backgroundImage: `url('${image}')`,
+          height: "100vh",
+        }}
+      >
         <CacheProvider value={cacheRtl}>
           <Box
+            width="100%"
+            maxWidth={isSmallScreen ? "100%" : "70%"}
             mx="auto" // Center the container horizontally
             display="flex"
             flexDirection="column"
@@ -84,7 +91,6 @@ function App() {
             justifyContent="center" // Center the container vertically
             minHeight="50vh"
             padding="20px"
-            marginTop="40px"
           >
             <Box
               width="70%"
@@ -96,6 +102,7 @@ function App() {
               borderRadius="30px"
               backgroundColor={theme.palette.primary.main}
               marginBottom="20px"
+              marginTop="50px"
               boxShadow="0px 5px 10px rgba(0, 0, 0, 0.1)" // Add a subtle box shadow
             >
               <Typography variant="h4" component="h2" color="white">
