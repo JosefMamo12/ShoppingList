@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const api = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:8080" }),
   reducerPath: "adminApi",
-  tagTypes: ["Categories", "AddItem", "getItems"],
+  tagTypes: ["Categories", "AddItem", "getItems", "getTotalItems"],
   endpoints: (build) => ({
     getCategory: build.query({
       query: () => ({
@@ -27,7 +27,18 @@ export const api = createApi({
       }),
       providesTags: ["getItems"],
     }),
+    getTotalItems: build.query({
+      query: () => ({
+        url: "client/getTotalItems",
+        method: "GET",
+      }),
+      providesTags: ["getTotalItems"],
+    }),
   }),
 });
-export const { useGetCategoryQuery, useAddItemMutation, useGetItemsQuery } =
-  api;
+export const {
+  useGetCategoryQuery,
+  useAddItemMutation,
+  useGetItemsQuery,
+  useGetTotalItemsQuery,
+} = api;

@@ -1,13 +1,10 @@
 import { Autocomplete, TextField } from "@mui/material";
 
-import React, { useState } from "react";
-import { chooseCategory } from "../state";
+import React from "react";
 import { useDispatch } from "react-redux";
-import { valueToPercent } from "@mui/base";
+import { chooseCategory } from "../state/categorySlice";
 
 const Category = () => {
-  const [category, setCategory] = useState("");
-
   const dispatch = useDispatch();
 
   const categories = [

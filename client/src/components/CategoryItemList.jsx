@@ -7,12 +7,19 @@ import {
   ListItem,
   ListItemText,
   CircularProgress,
+  ListItemSecondaryAction,
+  Typography,
+  Divider,
+  Paper
 } from "@mui/material";
 
-const CategoryItemList = () => {
-  const { data: categories, isLoading: categoriesLoading } =
-    useGetCategoryQuery();
-  const { data: items, isLoading: itemsLoading } = useGetItemsQuery();
+const CategoryItemList = ({ items, itemsLoading }) => {
+  const {
+    data: categories,
+    isLoading: categoriesLoading,
+    refetch: categoriesReftch,
+  } = useGetCategoryQuery();
+
   const [itemsFiltered, setItemsFiltered] = useState([]);
   useEffect(() => {
     if (categories && items) {
@@ -20,6 +27,7 @@ const CategoryItemList = () => {
         return categories.find((category) => category.id === item.category_id);
       });
       setItemsFiltered(filteredItems);
+      categoriesReftch();
     }
   }, [categories, items]);
 
@@ -28,46 +36,46 @@ const CategoryItemList = () => {
   }
 
   return (
-    <Box
-      display="flex"
-      flexDirection="row"
-      justifyContent="space-around"
-    >
+    <Box display="flex" flexDirection="row" justifyContent="space-around">
       {categories
         .filter((category) => category.total > 0)
         .map((category) => (
-            <List
-              key={category.id}
-              sx={{}}
-              subheader={
-                <ListSubheader
-                  component="div"
-                  id="nested-list-subheader"
-                  sx={{
-                    bgcolor: "primary.main",
-                    color: "white",
-                    fontSize: "20px",
-                    height: "60px", // Adjust this height as needed
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  {category.label + " - " + category.total + " מוצרים"}
-                </ListSubheader>
-              }
-            >
-              {
-              itemsFiltered
+          <Paper
+            key={category.id}
+            elevation={3}
+            sx={{
+              width: "80%",
+              marginBottom: 2,
+              padding: 2,
+              borderRadius: "8px",
+              backgroundColor: "#f9f9f9",
+            }}
+          >
+            <Typography variant="h6" sx={{ color: "#333" }}>
+              {category.label} - {category.total} מוצרים
+            </Typography>
+            <Divider sx={{ marginTop: 1, marginBottom: 2 }} />
+            <List dense>
+              {itemsFiltered
                 .filter((item) => item.category_id === category.id)
                 .map((item) => (
-                  <ListItem key={item.id} id={item.id}>
-                    <ListItemText
-                      primary={item.item_name + " " + item.total + "x"}
-                    />
+                  <ListItem
+                    key={item.id}
+                    id={item.id}
+                    sx={{ borderBottom: "1px solid #A5E9C7" }}
+                  >
+                    <ListItemText />
+                    <ListItemText primary={item.item_name} />
+                    <ListItemSecondaryAction>
+                      <Typography variant="body2">
+                        {item.total + "x"}{" "}
+                      </Typography>
+                    </ListItemSecondaryAction>
                   </ListItem>
                 ))}
+              {<Divider />}
             </List>
+          </Paper>
         ))}
     </Box>
   );

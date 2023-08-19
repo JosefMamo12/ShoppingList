@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   TextField,
   Box,
@@ -7,7 +7,7 @@ import {
   Typography,
   Button,
   createTheme,
-  Input,
+  Divider,
 } from "@mui/material";
 import { green } from "@mui/material/colors";
 import Category from "./components/Category";
@@ -15,10 +15,15 @@ import stylisRTLPlugin from "stylis-plugin-rtl";
 import { CacheProvider } from "@emotion/react";
 import createCache from "@emotion/cache";
 import CategoryItemList from "./components/CategoryItemList";
-import { useSelector } from "react-redux";
-import { useAddItemMutation } from "./state/api";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  useAddItemMutation,
+  useGetItemsQuery,
+} from "./state/api";
+import {  incrementTotalItems } from "./state/totalItemsSlice";
 
 function App() {
+  const dispatch = useDispatch();
   const cacheRtl = createCache({
     key: "muirtl",
     stylisPlugins: [stylisRTLPlugin],
@@ -36,23 +41,36 @@ function App() {
         main: "#f0f5f1", // A light background color
       },
     },
+    typography: {
+      fontFamily: "Arial, sans-serif", // Change the font family
+    },
   });
 
   const [text, setText] = useState("");
+  const {
+    data: items,
+    isLoading: itemsLoading,
+    refetch: refetchItems,
+  } = useGetItemsQuery();
+
   const selectedCategory = useSelector((state) => state.category.value);
-  const [addItem, addItemResult] = useAddItemMutation();
+  const selectedTotalItems = useSelector((state) => state.totalItems.value);
+  const [addItem] = useAddItemMutation();
 
   const handleClick = () => {
-    // if (!text || !selectedCategory) {
-    //   console.log("Please fill both of the fields");
-    // } else {
-    console.log(text + " " + selectedCategory.id);
-    addItem({
-      itemName: text,
-      categoryId: selectedCategory.id,
-    });
-    // }
+    if (!text || !selectedCategory) {
+      console.log("Please fill both fields");
+    } else {
+      addItem({
+        itemName: text.trim(),
+        categoryId: selectedCategory.id,
+      });
+      dispatch(incrementTotalItems());
+      refetchItems();
+      setText(""); // Clear the input field after adding an item
+    }
   };
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -65,12 +83,12 @@ function App() {
             alignItems="center"
             justifyContent="center" // Center the container vertically
             minHeight="50vh"
-            backgroundColor={theme.palette.background.main}
             padding="20px"
+            marginTop="40px"
           >
             <Box
-              width="100%"
-              height="200px"
+              width="70%"
+              height="10vh"
               display="flex"
               justifyContent="center"
               alignItems="center"
@@ -78,8 +96,9 @@ function App() {
               borderRadius="30px"
               backgroundColor={theme.palette.primary.main}
               marginBottom="20px"
+              boxShadow="0px 5px 10px rgba(0, 0, 0, 0.1)" // Add a subtle box shadow
             >
-              <Typography variant="h1" component="h2" color="white">
+              <Typography variant="h4" component="h2" color="white">
                 רשימת קניות
               </Typography>
             </Box>
@@ -90,30 +109,40 @@ function App() {
               alignItems="center"
               justifyContent="center"
               width="100%"
+              gap={2} // Add some space between elements
             >
-              <Box padding="10px">
-                <TextField
-                  id="outlined"
-                  variant="outlined"
-                  dir="rtl"
-                  label="רשום מוצר"
-                  onChange={(e) => setText(e.target.value)}
-                ></TextField>
-              </Box>
-              <Box padding="10px">
-                <Category />
-              </Box>
+              <TextField
+                id="outlined"
+                variant="outlined"
+                dir="rtl"
+                label="רשום מוצר"
+                value={text}
+                onChange={(e) => setText(e.target.value)}
+              />
+              <Category />
               <Button onClick={handleClick} variant="contained" color="primary">
                 הוסף
               </Button>
             </Box>
+            <Box marginTop={2}>
+              <Typography variant="h6">
+                סה"כ מוצרים: {selectedTotalItems}
+              </Typography>
+            </Box>
             <Box
-              padding="100px"
               className="lists container"
               width="100%"
               minHeight="100px"
+              padding={2}
+              borderRadius="10px"
+              backgroundColor={theme.palette.background.main}
+              boxShadow="0px 0px 10px rgba(0, 0, 0, 0.1)" // Add a subtle box shadow
             >
-              <CategoryItemList />
+              <Typography variant="h5" color="primary" marginBottom={2}>
+                מוצרים ברשימה
+              </Typography>
+              <Divider sx={{ marginY: 2 }} />
+              <CategoryItemList items={items} itemsLoading={itemsLoading} />
             </Box>
           </Box>
         </CacheProvider>
