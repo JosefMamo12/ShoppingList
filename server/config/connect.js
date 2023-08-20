@@ -1,13 +1,15 @@
 import { createPool } from "mysql";
+import dotenv from "dotenv";
+dotenv.config();
 
 const pool = createPool({
   multipleStatements: true,
-  host: "localhost",
-  user: "root",
-  password: "1234",
+  host: process.env.CLOUD_SQL_HOST,
+  user: process.env.CLOUD_SQL_USERNAME,
+  password: process.env.CLOUD_SQL_PASSWORD,
   connectionLimit: 10,
-  database: "list",
-  port: "3307",
+  database: process.env.CLOUD_SQL_DATABASE,
+  port: process.env.CLOUD_SQL_PORT,
 });
 
 const initializeDatabase = () => {
