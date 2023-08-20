@@ -9,8 +9,15 @@ export const totalItemsSlice = createSlice({
     incrementTotalItems: (state) => {
       state.value += 1;
     },
+    decrementTotalItems: (state) => {
+      state.value -= 1;
+    },
+    restartSignal: (state) => {
+      state.value = 0;
+    },
   },
 });
 
-export const { incrementTotalItems } = totalItemsSlice.actions;
+export const { incrementTotalItems, restartSignal, decrementTotalItems } =
+  totalItemsSlice.actions;
 export default totalItemsSlice.reducer;

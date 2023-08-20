@@ -1,23 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { useGetCategoryQuery, useGetItemsQuery } from "../state/api";
+import { useGetCategoryQuery } from "../state/api";
 import {
   Box,
   List,
-  ListSubheader,
-  ListItem,
-  ListItemText,
   CircularProgress,
-  ListItemSecondaryAction,
   Typography,
   Divider,
-  Paper
+  Paper,
+  Button,
 } from "@mui/material";
 
-const CategoryItemList = ({ items, itemsLoading }) => {
+import CustomListItem from "./CustomListItem";
+
+const CategoryItemList = ({ items, itemsLoading, refetch }) => {
   const {
     data: categories,
     isLoading: categoriesLoading,
-    refetch: categoriesReftch,
+    refetch: categoriesRefetch,
   } = useGetCategoryQuery();
 
   const [itemsFiltered, setItemsFiltered] = useState([]);
@@ -27,9 +26,9 @@ const CategoryItemList = ({ items, itemsLoading }) => {
         return categories.find((category) => category.id === item.category_id);
       });
       setItemsFiltered(filteredItems);
-      categoriesReftch();
+      categoriesRefetch();
     }
-  }, [categories, items]);
+  }, [categories, items, categoriesRefetch]);
 
   if (categoriesLoading || itemsLoading) {
     return <CircularProgress />;
@@ -44,7 +43,7 @@ const CategoryItemList = ({ items, itemsLoading }) => {
             key={category.id}
             elevation={3}
             sx={{
-              width: "80%",
+              width: "30%",
               marginBottom: 2,
               padding: 2,
               borderRadius: "8px",
@@ -59,19 +58,10 @@ const CategoryItemList = ({ items, itemsLoading }) => {
               {itemsFiltered
                 .filter((item) => item.category_id === category.id)
                 .map((item) => (
-                  <ListItem
-                    key={item.id}
-                    id={item.id}
-                    sx={{ borderBottom: "1px solid #A5E9C7" }}
-                  >
-                    <ListItemText />
-                    <ListItemText primary={item.item_name} />
-                    <ListItemSecondaryAction>
-                      <Typography variant="body2">
-                        {item.total + "x"}{" "}
-                      </Typography>
-                    </ListItemSecondaryAction>
-                  </ListItem>
+                  <CustomListItem
+                    item={item}
+                    refetchItems={refetch}
+                  />
                 ))}
               {<Divider />}
             </List>

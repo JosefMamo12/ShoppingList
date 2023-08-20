@@ -18,7 +18,7 @@ import createCache from "@emotion/cache";
 import CategoryItemList from "./components/CategoryItemList";
 import { useDispatch, useSelector } from "react-redux";
 import { useAddItemMutation, useGetItemsQuery } from "./state/api";
-import { incrementTotalItems } from "./state/totalItemsSlice";
+import { incrementTotalItems, restartSignal } from "./state/totalItemsSlice";
 import image from "./img/15687.jpg";
 function App() {
   const dispatch = useDispatch();
@@ -51,8 +51,12 @@ function App() {
     refetch: refetchItems,
   } = useGetItemsQuery();
 
-  const selectedCategory = useSelector((state) => state.category.value);
-  const selectedTotalItems = useSelector((state) => state.totalItems.value);
+  const selectedCategory = useSelector(
+    (state) => state.persistedReducer.category.value
+  );
+  const selectedTotalItems = useSelector(
+    (state) => state.persistedReducer.totalItems.value
+  );
   const [addItem] = useAddItemMutation();
 
   const handleClick = () => {
@@ -68,6 +72,7 @@ function App() {
       setText(""); // Clear the input field after adding an item
     }
   };
+
   const isSmallScreen = useMediaQuery(theme.breakpoints.up("sm"));
   return (
     <ThemeProvider theme={theme}>
@@ -131,10 +136,13 @@ function App() {
                 הוסף
               </Button>
             </Box>
-            <Box marginTop={2}>
+            <Box marginTop={2} marginBottom={2} display="flex" justifyContent="space-between" >
               <Typography variant="h6">
                 סה"כ מוצרים: {selectedTotalItems}
               </Typography>
+              <Button variant="text" onClick={() => dispatch(restartSignal())}>
+                אפס
+              </Button>
             </Box>
             <Box
               className="lists container"
@@ -149,7 +157,11 @@ function App() {
                 מוצרים ברשימה
               </Typography>
               <Divider sx={{ marginY: 2 }} />
-              <CategoryItemList items={items} itemsLoading={itemsLoading} />
+              <CategoryItemList
+                items={items}
+                itemsLoading={itemsLoading}
+                refetch={refetchItems}
+              />
             </Box>
           </Box>
         </CacheProvider>
