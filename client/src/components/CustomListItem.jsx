@@ -28,26 +28,24 @@ const CustomListItem = ({ item, refetchItems, categoriesRefetch }) => {
   const dispatch = useDispatch();
   const handleAdd = async () => {
     setIsAdding(true);
-    addItem({ itemId: item.id, categoryId: item.category_id });
-    dispatch(incrementTotalItems());
+    addItem({ itemId: item.id, categoryId: item.category_id }).then(() => {
+      refetchItems();
+      dispatch(incrementTotalItems());
+      setIsAdding(false);
+    });
   };
   const handleSubtract = async () => {
-    setIsRemoving(true);
+    setIsRemoving(false);
     removeItem({
       itemId: item.id,
       categoryId: item.category_id,
       action: "remove",
+    }).then(() => {
+      refetchItems();
+      dispatch(decrementTotalItems());
+      setIsRemoving(true);
     });
-    dispatch(decrementTotalItems());
   };
-
-  useEffect(() => {
-    console.log("????");
-    refetchItems();
-    categoriesRefetch();
-    setIsRemoving(false);
-    setIsAdding(false);
-  }, [isRemoving, isAdding]);
 
   return (
     <ListItem
