@@ -4,8 +4,9 @@ import {
   Typography,
   ListItemSecondaryAction,
   ListItemText,
+  CircularProgress,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 import { useDispatch } from "react-redux";
@@ -17,8 +18,11 @@ import {
   incrementTotalItems,
   decrementTotalItems,
 } from "../state/totalItemsSlice";
+import { fontSize } from "@mui/system";
 
-const CustomListItem = ({ item, refetchItems }) => {
+const CustomListItem = ({ item, refetchItems, categoriesRefetch }) => {
+  const [isRemoving, setIsRemoving] = useState(false);
+  const [isAdding, setIsAdding] = useState(false);
   const [addItem] = useAddItemUsingIconMutation();
   const [removeItem] = useRemoveItemUsingIconMutation();
   const dispatch = useDispatch();
@@ -26,6 +30,7 @@ const CustomListItem = ({ item, refetchItems }) => {
     addItem({ itemId: item.id, categoryId: item.category_id });
     dispatch(incrementTotalItems());
     refetchItems();
+    categoriesRefetch();
   };
   const handleSubtract = () => {
     removeItem({
@@ -35,8 +40,8 @@ const CustomListItem = ({ item, refetchItems }) => {
     });
     dispatch(decrementTotalItems());
     refetchItems();
+    categoriesRefetch();
   };
-
 
   return (
     <ListItem

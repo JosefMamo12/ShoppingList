@@ -30,10 +30,9 @@ const CategoryItemList = ({ items, itemsLoading, refetch }) => {
     }
   }, [categories, items, categoriesRefetch]);
 
-  if (categoriesLoading || itemsLoading) {
+  if (itemsLoading || categoriesLoading) {
     return <CircularProgress />;
   }
-
   return (
     <Box display="flex" flexDirection="row" justifyContent="space-around">
       {categories
@@ -61,6 +60,7 @@ const CategoryItemList = ({ items, itemsLoading, refetch }) => {
                   <CustomListItem
                     item={item}
                     refetchItems={refetch}
+                    refetchCategories={categoriesRefetch}
                   />
                 ))}
               {<Divider />}
