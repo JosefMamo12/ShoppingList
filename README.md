@@ -10,7 +10,11 @@ This is a simple shopping list web application built with React, JavaScript, Nod
 ## Video
 
 
-https://github.com/JosefMamo12/ShoppingList/assets/73185009/d00ceb2a-3ad6-4eb9-8167-8787f1d794a6
+
+
+https://github.com/JosefMamo12/ShoppingList/assets/73185009/37868136-055b-4949-9266-6fc81be76f8f
+
+
 
 
 
