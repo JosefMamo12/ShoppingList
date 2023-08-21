@@ -1,6 +1,6 @@
 # Shopping List Web Application
 
-This is a simple shopping list web application built with HTML, JavaScript, Node.js, and Express.js. Users can add items to their shopping list through the web interface.
+This is a simple shopping list web application built with React, JavaScript, Node.js, and Express.js. Users can add items to their shopping list through the web interface.
 
 ## Table of Contents
 
@@ -84,5 +84,15 @@ npm install --legacy-peers-deps
 2. The client will run on localhost:3000 (default react app port) if the port not used.
 
 
+## Deployment
 
+This web application is deployed and can be accessed online. Here's how you can access it:
+
+- **Live Demo**: [Link to the Live Demo](https://shop-list223.netlify.app/)
+  - You can visit the live demo by clicking the link above.
+
+### Notes
+
+- Make sure you have an internet connection to access the live demo.
+- The application may be continuously updated with new features and improvements.
 
