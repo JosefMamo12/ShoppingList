@@ -47,31 +47,6 @@ export const addItemUsingIcon = (req, res) => {
   });
 };
 
-const updateItem = (connection, itemId) => {
-  return new Promise((resolve, reject) => {
-    const updateQuery = `UPDATE items SET total = total - 1 WHERE id = ?`;
-    connection.query(updateQuery, [itemId], (updateErr) => {
-      if (updateErr) {
-        return reject("Update query error");
-      }
-      resolve();
-    });
-  });
-};
-
-// Function to execute procedures
-const executeProcedures = (connection, action) => {
-  const procedures = ["DeleteItemsWithFlagPro", "DeleteItemsWithFlag"];
-  const procedurePromises = procedures.map((procedure) => {
-    return new Promise((resolve, reject) => {
-      executeProcedure(connection, procedure)
-        .then(() => resolve())
-        .catch(() => reject(`Error executing ${procedure}`));
-    });
-  });
-
-  return Promise.all(procedurePromises);
-};
 export const removeItemUsingIcon = async (req, res) => {
   const { itemId, categoryId, action } = req.body;
 
@@ -81,13 +56,10 @@ export const removeItemUsingIcon = async (req, res) => {
     }
 
     try {
-      await connection.beginTransaction();
-
-      await updateItem(connection, itemId);
-
       if (action === "remove") {
-        await executeProcedures(connection, action);
+        await executeRemoveActions(connection, itemId);
       }
+      await connection.beginTransaction();
 
       updateCategories(connection, categoryId, action);
 
@@ -225,14 +197,42 @@ const updateCategories = (connection, categoryId, action) => {
     });
   });
 };
-const executeProcedure = (connection, procedureName) => {
+const executeRemoveActions = (connection, itemId) => {
   return new Promise((resolve, reject) => {
-    connection.query(`CALL ${procedureName}()`, (err, results) => {
+    // Update the 'total' count for the item
+    const updateQuery = `UPDATE items SET total = total - 1 WHERE id = ?`;
+    connection.query(updateQuery, [itemId], (err, updateResults) => {
       if (err) {
         reject(err);
       } else {
-        console.log(`${procedureName} executed successfully.`);
-        resolve(results);
+        // Check the 'total' count after the update
+        const checkQuery = `SELECT total FROM items WHERE id = ?`;
+        connection.query(checkQuery, [itemId], (err, checkResults) => {
+          if (err) {
+            reject(err);
+          } else {
+            const total = checkResults[0].total;
+
+            // If the 'total' count is zero, delete the item
+            if (total === 0) {
+              const deleteItemQuery = "DELETE FROM items WHERE id = ?";
+              connection.query(
+                deleteItemQuery,
+                [itemId],
+                (err, deleteResults) => {
+                  if (err) {
+                    reject(err);
+                  } else {
+                    console.log(`Deleted item with id: ${itemId}`);
+                    resolve(deleteResults);
+                  }
+                }
+              );
+            } else {
+              resolve(updateResults);
+            }
+          }
+        });
       }
     });
   });
