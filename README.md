@@ -56,7 +56,8 @@ npm install
 
 4. In the root folder of the server, create a .env file. This file will be used to configure the connection to your MySQL database, whether it's hosted on a cloud server or locally. <br/> Be sure to update the .env file with your MySQL database credentials."
 
-   ![image](https://github.com/JosefMamo12/ShoppingList/assets/73185009/bd9861e2-269d-4ee5-a165-e3d4655f0fe4)
+   ![image](https://github.com/JosefMamo12/ShoppingList/assets/73185009/60110fe8-d662-458f-a13d-51e93e0cfc8e)
+
 
 ## Step 3: Starting the Server
 1. Once the configuration is set, you can start the server using the following command:
@@ -81,7 +82,9 @@ cd client
 npm install --legacy-peers-deps
 ```
 3. configure .env.local file in the client root like this (depends on which client you would like to retrive data or add):
-![image](https://github.com/JosefMamo12/ShoppingList/assets/73185009/d411e2a2-bd73-49d4-a627-6ad167e92f32)
+
+![image](https://github.com/JosefMamo12/ShoppingList/assets/73185009/88942d9d-ecf5-4871-9b50-b93f9a0a3644)
+
 
 ## Step 5: Starting the Server
 1. Once the configuration is set, you can start the client using the following command:
