@@ -6,7 +6,7 @@ This is a simple shopping list web application built with React, JavaScript, Nod
 
 - [Features](#features)
 - [Getting Started](#getting-started)
-- [Usage](#usage)
+- [Deployment](#deploymente)
 
 ## Features
 
@@ -58,7 +58,9 @@ npm install
     ```bash
     npm start
     ```
-2. The server will start running on the specified port (default is 8080). You can access it using your web browser or tools like Postman.
+2. Once the server is configured there is a function thats running and intialize all the required tables for this project.
+  
+3. The server will start running on the specified port (default is 8080). You can access it using your web browser or tools like Postman.
 
 ## Step 4: Setup the Client
 1. Navigate to the client directory from the project root directory:
