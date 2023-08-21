@@ -73,6 +73,10 @@ function App() {
     }
   };
 
+  useEffect(() => {
+    refetchItems();
+});
+
   const isSmallScreen = useMediaQuery(theme.breakpoints.up("sm"));
   return (
     <ThemeProvider theme={theme}>
@@ -121,6 +125,7 @@ function App() {
               alignItems="center"
               justifyContent="center"
               width="100%"
+              minWidth="50px"
               gap={2} // Add some space between elements
             >
               <TextField
@@ -136,7 +141,12 @@ function App() {
                 הוסף
               </Button>
             </Box>
-            <Box marginTop={2} marginBottom={2} display="flex" justifyContent="space-between" >
+            <Box
+              marginTop={2}
+              marginBottom={2}
+              display="flex"
+              justifyContent="space-between"
+            >
               <Typography variant="h6">
                 סה"כ מוצרים: {selectedTotalItems}
               </Typography>
