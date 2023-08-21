@@ -14,12 +14,12 @@ dotenv.config();
 
 const pool = createPool({
   multipleStatements: true,
-  host: process.env.HOST,
-  user: process.env.USERNAME,
-  password: process.env.PASSWORD,
+  host: process.env.CLOUD_SQL_HOST,
+  user: process.env.CLOUD_SQL_USERNAME,
+  password: process.env.CLOUD_SQL_PASSWORD,
   connectionLimit: 10,
   database: process.env.CLOUD_SQL_DATABASE,
-  port: process.env.PORT,
+  port: process.env.CLOUD_SQL_PORT,
 });
 // const pool = createPool({
 //   multipleStatements: true,
