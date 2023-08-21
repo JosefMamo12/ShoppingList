@@ -6,7 +6,7 @@ import {
   ListItemText,
   CircularProgress,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 import { useDispatch } from "react-redux";
@@ -26,22 +26,28 @@ const CustomListItem = ({ item, refetchItems, categoriesRefetch }) => {
   const [addItem] = useAddItemUsingIconMutation();
   const [removeItem] = useRemoveItemUsingIconMutation();
   const dispatch = useDispatch();
-  const handleAdd = () => {
+  const handleAdd = async () => {
+    setIsAdding(true);
     addItem({ itemId: item.id, categoryId: item.category_id });
     dispatch(incrementTotalItems());
-    refetchItems();
-    categoriesRefetch();
   };
-  const handleSubtract = () => {
+  const handleSubtract = async () => {
+    setIsRemoving(true);
     removeItem({
       itemId: item.id,
       categoryId: item.category_id,
       action: "remove",
     });
     dispatch(decrementTotalItems());
+  };
+
+  useEffect(() => {
+    console.log("????");
     refetchItems();
     categoriesRefetch();
-  };
+    setIsRemoving(false);
+    setIsAdding(false);
+  }, [isRemoving, isAdding]);
 
   return (
     <ListItem
@@ -54,17 +60,17 @@ const CustomListItem = ({ item, refetchItems, categoriesRefetch }) => {
         id={item.id}
         aria-label="add"
         size="small"
-        onClick={() => handleAdd()}
+        onClick={async () => await handleAdd()}
       >
-        <AddIcon fontSize="inherit" />
+        {isAdding ? <CircularProgress /> : <AddIcon fontSize="inherit" />}
       </IconButton>
       <IconButton
         id={item.id}
         aria-label="add"
         size="small"
-        onClick={() => handleSubtract(item.id)}
+        onClick={async () => await handleSubtract(item.id)}
       >
-        <RemoveIcon fontSize="inherit" />
+        {isRemoving ? <CircularProgress /> : <RemoveIcon fontSize="inherit" />}
       </IconButton>
       <ListItemSecondaryAction>
         <Typography variant="body2">{item.total + "x"} </Typography>

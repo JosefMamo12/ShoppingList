@@ -66,10 +66,15 @@ function App() {
       addItem({
         itemName: text.trim(),
         categoryId: selectedCategory.id,
-      });
-      dispatch(incrementTotalItems());
-      refetchItems();
-      setText(""); // Clear the input field after adding an item
+      })
+        .then(() => {
+          dispatch(incrementTotalItems());
+          refetchItems();
+          setText(""); // Clear the input field after adding an item
+        })
+        .catch((error) => {
+          console.error("Error adding item: ", error);
+        });
     }
   };
 
@@ -136,7 +141,12 @@ function App() {
                 הוסף
               </Button>
             </Box>
-            <Box marginTop={2} marginBottom={2} display="flex" justifyContent="space-between" >
+            <Box
+              marginTop={2}
+              marginBottom={2}
+              display="flex"
+              justifyContent="space-between"
+            >
               <Typography variant="h6">
                 סה"כ מוצרים: {selectedTotalItems}
               </Typography>
