@@ -3,7 +3,7 @@
 This is a simple shopping list web application built with React, JavaScript, Node.js, and Express.js. Users can add items to their shopping list through the web interface.
 
 ## Table of Contents
-
+- [Video](#features)
 - [Features](#features)
 - [Getting Started](#getting-started)
 - [Deployment](#deploymente)
