@@ -52,5 +52,37 @@ npm install
 
    ![image](https://github.com/JosefMamo12/ShoppingList/assets/73185009/bd9861e2-269d-4ee5-a165-e3d4655f0fe4)
 
+## Step 3: Starting the Server
+1. Once the configuration is set, you can start the server using the following command:
 
-   
+    ```bash
+    npm start
+    ```
+2. The server will start running on the specified port (default is 8080). You can access it using your web browser or tools like Postman.
+
+## Step 4: Setup the Client
+1. Navigate to the client directory from the project root directory:
+
+``` bash
+cd client
+```
+
+2. Install the required dependencies by running the following command:
+
+``` bash
+npm install --legacy-peers-deps
+```
+3. configure .env.local file in the client root like this (depends on which client you would like to retrive data or add):
+![image](https://github.com/JosefMamo12/ShoppingList/assets/73185009/d411e2a2-bd73-49d4-a627-6ad167e92f32)
+
+## Step 5: Starting the Server
+1. Once the configuration is set, you can start the client using the following command:
+
+    ```bash
+    npm start
+    ```
+2. The client will run on localhost:3000 (default react app port) if the port not used.
+
+
+
+
