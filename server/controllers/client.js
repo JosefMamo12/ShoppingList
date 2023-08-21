@@ -211,25 +211,27 @@ const executeRemoveActions = (connection, itemId) => {
           if (err) {
             reject(err);
           } else {
-            const total = checkResults[0].total;
-
-            // If the 'total' count is zero, delete the item
-            if (total === 0) {
-              const deleteItemQuery = "DELETE FROM items WHERE id = ?";
-              connection.query(
-                deleteItemQuery,
-                [itemId],
-                (err, deleteResults) => {
-                  if (err) {
-                    reject(err);
-                  } else {
-                    console.log(`Deleted item with id: ${itemId}`);
-                    resolve(deleteResults);
+            if (checkResults && checkResults.length > 0) {
+              const total = checkResults[0].total;
+              if (total < 0) reject(err);
+              // If the 'total' count is zero, delete the item
+              if (total === 0) {
+                const deleteItemQuery = "DELETE FROM items WHERE id = ?";
+                connection.query(
+                  deleteItemQuery,
+                  [itemId],
+                  (err, deleteResults) => {
+                    if (err) {
+                      reject(err);
+                    } else {
+                      console.log(`Deleted item with id: ${itemId}`);
+                      resolve(deleteResults);
+                    }
                   }
-                }
-              );
-            } else {
-              resolve(updateResults);
+                );
+              } else {
+                resolve(updateResults);
+              }
             }
           }
         });
