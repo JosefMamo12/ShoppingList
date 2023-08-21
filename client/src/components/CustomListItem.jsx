@@ -18,7 +18,6 @@ import {
   incrementTotalItems,
   decrementTotalItems,
 } from "../state/totalItemsSlice";
-import { fontSize } from "@mui/system";
 
 const CustomListItem = ({ item, refetchItems, categoriesRefetch }) => {
   const [isRemoving, setIsRemoving] = useState(false);
@@ -26,7 +25,7 @@ const CustomListItem = ({ item, refetchItems, categoriesRefetch }) => {
   const [addItem] = useAddItemUsingIconMutation();
   const [removeItem] = useRemoveItemUsingIconMutation();
   const dispatch = useDispatch();
-  const handleAdd = async () => {
+  const handleAdd = () => {
     setIsAdding(true);
     addItem({ itemId: item.id, categoryId: item.category_id }).then(() => {
       refetchItems();
@@ -34,8 +33,8 @@ const CustomListItem = ({ item, refetchItems, categoriesRefetch }) => {
       setIsAdding(false);
     });
   };
-  const handleSubtract = async () => {
-    setIsRemoving(false);
+  const handleSubtract = () => {
+    setIsRemoving(true);
     removeItem({
       itemId: item.id,
       categoryId: item.category_id,
@@ -43,7 +42,7 @@ const CustomListItem = ({ item, refetchItems, categoriesRefetch }) => {
     }).then(() => {
       refetchItems();
       dispatch(decrementTotalItems());
-      setIsRemoving(true);
+      setIsRemoving(false);
     });
   };
 
@@ -58,7 +57,7 @@ const CustomListItem = ({ item, refetchItems, categoriesRefetch }) => {
         id={item.id}
         aria-label="add"
         size="small"
-        onClick={async () => await handleAdd()}
+        onClick={() => handleAdd()}
       >
         {isAdding ? <CircularProgress /> : <AddIcon fontSize="inherit" />}
       </IconButton>
@@ -66,7 +65,7 @@ const CustomListItem = ({ item, refetchItems, categoriesRefetch }) => {
         id={item.id}
         aria-label="add"
         size="small"
-        onClick={async () => await handleSubtract(item.id)}
+        onClick={() => handleSubtract()}
       >
         {isRemoving ? <CircularProgress /> : <RemoveIcon fontSize="inherit" />}
       </IconButton>

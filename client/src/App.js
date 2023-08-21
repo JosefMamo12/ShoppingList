@@ -9,6 +9,7 @@ import {
   createTheme,
   Divider,
   useMediaQuery,
+  CircularProgress,
 } from "@mui/material";
 import { green } from "@mui/material/colors";
 import Category from "./components/Category";
@@ -43,7 +44,7 @@ function App() {
       fontFamily: "Arial, sans-serif", // Change the font family
     },
   });
-
+  const [addItemFlag, setAddItemFlag] = useState(false);
   const [text, setText] = useState("");
   const {
     data: items,
@@ -63,11 +64,13 @@ function App() {
     if (!text || !selectedCategory) {
       console.log("Please fill both fields");
     } else {
+      setAddItemFlag(true);
       addItem({
         itemName: text.trim(),
         categoryId: selectedCategory.id,
       })
         .then(() => {
+          setAddItemFlag(false);
           dispatch(incrementTotalItems());
           refetchItems();
           setText(""); // Clear the input field after adding an item
@@ -137,8 +140,13 @@ function App() {
                 onChange={(e) => setText(e.target.value)}
               />
               <Category />
-              <Button onClick={handleClick} variant="contained" color="primary">
-                הוסף
+              <Button
+                onClick={handleClick}
+                variant="contained"
+                color="primary"
+                disabled={addItemFlag}
+              >
+                {addItemFlag ? <CircularProgress /> : "הוסף מוצר"}
               </Button>
             </Box>
             <Box
@@ -150,9 +158,9 @@ function App() {
               <Typography variant="h6">
                 סה"כ מוצרים: {selectedTotalItems}
               </Typography>
-              <Button variant="text" onClick={() => dispatch(restartSignal())}>
+              {/* <Button variant="text" onClick={() => dispatch(restartSignal())}>
                 אפס
-              </Button>
+              </Button> */}
             </Box>
             <Box
               className="lists container"
