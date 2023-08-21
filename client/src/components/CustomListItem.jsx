@@ -4,9 +4,8 @@ import {
   Typography,
   ListItemSecondaryAction,
   ListItemText,
-  Button,
 } from "@mui/material";
-import React, { useEffect } from "react";
+import React from "react";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 import { useDispatch } from "react-redux";
@@ -37,6 +36,7 @@ const CustomListItem = ({ item, refetchItems }) => {
     dispatch(decrementTotalItems());
     refetchItems();
   };
+
 
   return (
     <ListItem
