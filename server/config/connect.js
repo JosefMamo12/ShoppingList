@@ -1,25 +1,17 @@
-import { createPool } from "mysql";
+import mysql from "mysql2";
 import dotenv from "dotenv";
+import fs from "fs";
 dotenv.config();
 
-// const pool = createPool({
-//   multipleStatements: true,
-//   host: process.env.HOST,
-//   user: process.env.USERNAME,
-//   password: process.env.PASSWORD,
-//   connectionLimit: 10,
-//   database: process.env.CLOUD_SQL_DATABASE,
-//   port: process.env.PORT,
-// });
-
-const pool = createPool({
+const pool = mysql.createPool({
   multipleStatements: true,
   host: process.env.CLOUD_SQL_HOST,
   user: process.env.CLOUD_SQL_USERNAME,
   password: process.env.CLOUD_SQL_PASSWORD,
-  connectionLimit: 10,
   database: process.env.CLOUD_SQL_DATABASE,
-  port: process.env.CLOUD_SQL_PORT,
+  port: 3306,
+  connectionLimit: 10,
+  ssl: { ca: fs.readFileSync("config/DigiCertGlobalRootCA.crt.pem") },
 });
 // const pool = createPool({
 //   multipleStatements: true,
@@ -30,7 +22,6 @@ const pool = createPool({
 //   database: "list",
 //   port: "3307",
 // });
-
 const initializeDatabase = () => {
   const createCategoriesTableQuery = `
   CREATE TABLE IF NOT EXISTS categories (

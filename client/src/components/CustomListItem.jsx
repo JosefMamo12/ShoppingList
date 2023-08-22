@@ -58,6 +58,7 @@ const CustomListItem = ({ item, refetchItems, categoriesRefetch }) => {
         aria-label="add"
         size="small"
         onClick={() => handleAdd()}
+        disabled={isAdding}
       >
         {isAdding ? <CircularProgress /> : <AddIcon fontSize="inherit" />}
       </IconButton>
@@ -66,6 +67,7 @@ const CustomListItem = ({ item, refetchItems, categoriesRefetch }) => {
         aria-label="add"
         size="small"
         onClick={() => handleSubtract()}
+        disabled={isRemoving}
       >
         {isRemoving ? <CircularProgress /> : <RemoveIcon fontSize="inherit" />}
       </IconButton>
