@@ -19,7 +19,7 @@ import {
   decrementTotalItems,
 } from "../state/totalItemsSlice";
 
-const CustomListItem = ({ item, refetchItems, categoriesRefetch }) => {
+const CustomListItem = ({ item, refetchItems }) => {
   const [isRemoving, setIsRemoving] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
   const [addItem] = useAddItemUsingIconMutation();
@@ -33,7 +33,7 @@ const CustomListItem = ({ item, refetchItems, categoriesRefetch }) => {
       setIsAdding(false);
     });
   };
-  const handleSubtract = () => {
+  const handleSubtract = (item) => {
     setIsRemoving(true);
     removeItem({
       itemId: item.id,
@@ -66,7 +66,7 @@ const CustomListItem = ({ item, refetchItems, categoriesRefetch }) => {
         id={item.id}
         aria-label="add"
         size="small"
-        onClick={() => handleSubtract()}
+        onClick={() => handleSubtract(item)}
         disabled={isRemoving}
       >
         {isRemoving ? <CircularProgress /> : <RemoveIcon fontSize="inherit" />}
