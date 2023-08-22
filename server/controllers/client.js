@@ -59,11 +59,11 @@ export const removeItemUsingIcon = async (req, res) => {
       if (action === "remove") {
         await executeRemoveActions(connection, itemId);
       }
-      await connection.beginTransaction();
+      connection.beginTransaction();
 
       updateCategories(connection, categoryId, action);
 
-      await connection.commit();
+      connection.commit();
 
       connection.release();
       return res.sendStatus(200);
