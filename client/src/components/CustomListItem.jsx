@@ -5,6 +5,7 @@ import {
   ListItemSecondaryAction,
   ListItemText,
   CircularProgress,
+  Box,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import RemoveIcon from "@mui/icons-material/Remove";
@@ -33,7 +34,8 @@ const CustomListItem = ({ item, refetchItems }) => {
       setIsAdding(false);
     });
   };
-  const handleSubtract = (item) => {
+  const handleSubtract = () => {
+    console.log(item);
     setIsRemoving(true);
     removeItem({
       itemId: item.id,
@@ -53,17 +55,15 @@ const CustomListItem = ({ item, refetchItems }) => {
       sx={{ borderBottom: "1px solid #A5E9C7" }}
     >
       <ListItemText primary={item.item_name} />
+        <IconButton
+          aria-label="add"
+          size="small"
+          onClick={() => handleAdd()}
+          disabled={isAdding}
+        >
+          {isAdding ? <CircularProgress /> : <AddIcon fontSize="inherit" />}
+        </IconButton>
       <IconButton
-        id={item.id}
-        aria-label="add"
-        size="small"
-        onClick={() => handleAdd()}
-        disabled={isAdding}
-      >
-        {isAdding ? <CircularProgress /> : <AddIcon fontSize="inherit" />}
-      </IconButton>
-      <IconButton
-        id={item.id}
         aria-label="add"
         size="small"
         onClick={() => handleSubtract(item)}
@@ -71,6 +71,7 @@ const CustomListItem = ({ item, refetchItems }) => {
       >
         {isRemoving ? <CircularProgress /> : <RemoveIcon fontSize="inherit" />}
       </IconButton>
+  
       <ListItemSecondaryAction>
         <Typography variant="body2">{item.total + "x"} </Typography>
       </ListItemSecondaryAction>

@@ -7,11 +7,28 @@ import {
   Typography,
   Divider,
   Paper,
+  useMediaQuery,
 } from "@mui/material";
-
 import CustomListItem from "./CustomListItem";
+import { useTheme } from "@emotion/react";
+import styled from "@emotion/styled";
 
+const FireNav = styled(List)({
+  "& .MuiListItemButton-root": {
+    paddingLeft: 24,
+    paddingRight: 24,
+  },
+  "& .MuiListItemIcon-root": {
+    minWidth: 0,
+    marginRight: 16,
+  },
+  "& .MuiSvgIcon-root": {
+    fontSize: 20,
+  },
+});
 const CategoryItemList = ({ items, itemsLoading, refetch }) => {
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("lg"));
   const {
     data: categories,
     isLoading: categoriesLoading,
@@ -34,7 +51,12 @@ const CategoryItemList = ({ items, itemsLoading, refetch }) => {
   }
 
   return (
-    <Box display="flex" flexDirection="row" justifyContent="space-around">
+    <Box
+      display="flex"
+      flexDirection={isSmallScreen ? "column" : "row"}
+      justifyContent="space-around"
+      gap={2}
+    >
       {categories
         .filter((category) => category.total > 0)
         .map((category) => (
@@ -42,7 +64,7 @@ const CategoryItemList = ({ items, itemsLoading, refetch }) => {
             key={category.id}
             elevation={3}
             sx={{
-              width: "30%",
+              minWidth: "200px",
               marginBottom: 2,
               padding: 2,
               borderRadius: "8px",
@@ -53,18 +75,20 @@ const CategoryItemList = ({ items, itemsLoading, refetch }) => {
               {category.label} - {category.total} מוצרים
             </Typography>
             <Divider sx={{ marginTop: 1, marginBottom: 2 }} />
-            <List dense>
-              {itemsFiltered
-                .filter((item) => item.category_id === category.id)
-                .map((item) => (
-                  <CustomListItem
-                    item={item}
-                    refetchItems={refetch}
-                    categoriesRefetch={categoriesRefetch}
-                  />
-                ))}
-              {<Divider />}
-            </List>
+            <FireNav>
+              <List dense>
+                {itemsFiltered
+                  .filter((item) => item.category_id === category.id)
+                  .map((item) => (
+                    <CustomListItem
+                      item={item}
+                      refetchItems={refetch}
+                      categoriesRefetch={categoriesRefetch}
+                    />
+                  ))}
+                {<Divider />}
+              </List>
+            </FireNav>
           </Paper>
         ))}
     </Box>

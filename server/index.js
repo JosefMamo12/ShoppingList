@@ -17,3 +17,4 @@ app.use(cors());
 app.use("/client", clientRoutes);
 
 app.listen(8080, () => console.log("App is listening on port 8080"));
+ 
