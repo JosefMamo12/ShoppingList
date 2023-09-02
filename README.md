@@ -102,7 +102,7 @@ npm install --legacy-peers-deps
 
 This web application is deployed and can be accessed online. Here's how you can access it:
 
-- **Live Demo**: [Link to the Live Demo](https://shop-list223.netlify.app/)
+- **Live Demo**: [Live Demo](https://shop-list223.netlify.app/)
   - You can visit the live demo by clicking the link above.
 
 ### Notes
