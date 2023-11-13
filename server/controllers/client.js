@@ -57,6 +57,7 @@ export const removeItemUsingIcon = async (req, res) => {
 
     try {
       if (action === "remove") {
+        // maybe it might be better this action will be inside the transaction because thats function does multiple changes.
         await executeRemoveActions(connection, itemId);
       }
       connection.beginTransaction();

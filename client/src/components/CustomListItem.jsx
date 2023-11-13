@@ -28,6 +28,7 @@ const CustomListItem = ({ item, refetchItems }) => {
   const dispatch = useDispatch();
   const handleAdd = () => {
     setIsAdding(true);
+
     addItem({ itemId: item.id, categoryId: item.category_id }).then(() => {
       refetchItems();
       dispatch(incrementTotalItems());
@@ -73,7 +74,7 @@ const CustomListItem = ({ item, refetchItems }) => {
       </IconButton>
   
       <ListItemSecondaryAction>
-        <Typography variant="body2">{item.total + "x"} </Typography>
+        <Typography variant="body2">{item.b + "x"} </Typography>
       </ListItemSecondaryAction>
     </ListItem>
   );

@@ -1,4 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { useGetTotalItemsQuery } from "./api";
+
 
 export const totalItemsSlice = createSlice({
   name: "totalItems",
