@@ -3,13 +3,13 @@
 This is a simple shopping list web application built with React, JavaScript, Node.js, and Express.js. Users can add items to their shopping list through the web interface.
 
 ## Table of Contents
-- [Video](#Video)
+- [Demo](#Video)
 - [Mobile View](#Photo)
 - [Features](#features)
 - [Getting Started](#getting-started)
 - [Deployment](#deployment)
 
-## Video
+## Demo
 
 
 https://github.com/JosefMamo12/ShoppingList/assets/73185009/dc6d7864-2435-4397-9875-47049abd9433
