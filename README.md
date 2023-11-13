@@ -4,7 +4,7 @@ This is a simple shopping list web application built with React, JavaScript, Nod
 
 ## Table of Contents
 - [Video](#Video)
-- [Photo](#Photo)
+- [Mobile View](#Photo)
 - [Features](#features)
 - [Getting Started](#getting-started)
 - [Deployment](#deployment)
@@ -14,8 +14,8 @@ This is a simple shopping list web application built with React, JavaScript, Nod
 
 https://github.com/JosefMamo12/ShoppingList/assets/73185009/dc6d7864-2435-4397-9875-47049abd9433
 
-## Photo
-![WhatsApp Image 2023-08-26 at 22 56 18](https://github.com/JosefMamo12/ShoppingList/assets/73185009/1887e078-1be2-4d4f-b9e0-204bd366469d)
+ ## Mobile View
+![Mobile](https://github.com/JosefMamo12/ShoppingList/assets/73185009/035d96eb-8949-44a4-8f9a-9baa76c8628e)
 
 ## Features
 
